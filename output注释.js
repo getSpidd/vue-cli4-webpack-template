@@ -50,7 +50,7 @@
       'vue/dist/vue.runtime.esm.js'
     }
   ,
-    extensions: [
+    extensions: [  // 依次解析
       '.mjs',
       '.js',
       '.jsx',
@@ -102,7 +102,7 @@
             loader: 'E:\\Spidd\\学习\\vue-cli4\\node_modules\\_cache-loader@4.1.0@cache-loader\\dist\\cjs.js',
             options: {
               cacheDirectory: 'E:\\Spidd\\学习\\vue-cli4\\node_modules\\.cache\\vue-loader',
-              cacheIdentifier: '98cfc628'
+              cacheIdentifier: 'ba19876e'
             }
           },
           /* config.module.rule('vue').use('vue-loader') */
@@ -113,7 +113,7 @@
                 whitespace: 'condense'
               },
               cacheDirectory: 'E:\\Spidd\\学习\\vue-cli4\\node_modules\\.cache\\vue-loader',
-              cacheIdentifier: '98cfc628'
+              cacheIdentifier: 'ba19876e'
             }
           }
         ]
@@ -1144,7 +1144,7 @@
             loader: 'E:\\Spidd\\学习\\vue-cli4\\node_modules\\_cache-loader@4.1.0@cache-loader\\dist\\cjs.js',
             options: {
               cacheDirectory: 'E:\\Spidd\\学习\\vue-cli4\\node_modules\\.cache\\babel-loader',
-              cacheIdentifier: '7121791c'
+              cacheIdentifier: '984865fa'
             }
           },
           /* config.module.rule('js').use('babel-loader') */
@@ -1172,7 +1172,7 @@
                 '.vue'
               ],
               cache: true,
-              cacheIdentifier: 'd5f041dc',
+              cacheIdentifier: 'e9acdd5e',
               emitWarning: true,
               emitError: false,
               eslintPath: 'E:\\Spidd\\学习\\vue-cli4\\node_modules\\_eslint@6.8.0@eslint',
@@ -1295,8 +1295,6 @@
           templateParameters: function () { /* omitted long function */
           },
           chunks: [
-            'chunk-vendors',
-            'chunk-common',
             'src1'
           ],
           template: 'public/index.html',
@@ -1310,8 +1308,6 @@
           templateParameters: function () { /* omitted long function */
           },
           chunks: [
-            'chunk-vendors',
-            'chunk-common',
             'src2'
           ],
           template: 'public/index1.html',
@@ -1387,7 +1383,7 @@
         }
     ),
     /* config.plugin('copy') */
-    new CopyPlugin(
+    new CopyPlugin( // 复制目录
         [
           {
             from: 'E:\\Spidd\\学习\\vue-cli4\\public',
