@@ -7,7 +7,15 @@ cnpm install
 ```
 ### 运行
 ```
-cnpm run dev
+cnpm run serve
+```
+### 打包
+```
+cnpm run build
+```
+### 打包
+```
+cnpm run build
 ```
 
 ### 更多详情
