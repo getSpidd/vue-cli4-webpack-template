@@ -1,27 +1,17 @@
 import Vue from 'vue'
 import App from './App.vue'
 import store from './store'
-import $ from 'jquery'
-
-console.log($)
-
-let xhr = new XMLHttpRequest();
-
-
-// http-proxy
-xhr.open('GET', '/api/user', true);
-
-xhr.onload = function () {
-  console.log(xhr.response);
-}
-
-xhr.send();
-
-console.log('home');
+import router from './router'
+import i18n from '@/locale'
+import './utils/rem'
+import './utils/permission'
+// import $ from 'jquery'
 
 Vue.config.productionTip = false
 
 new Vue({
+  router,
+  i18n,
   store,
   render: h => h(App)
 }).$mount('#app')

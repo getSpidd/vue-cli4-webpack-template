@@ -1,27 +1,55 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
-
+import 'nprogress/nprogress.css'
+import gatewayHomeRouter from './gatewayHome'
 Vue.use(VueRouter)
 
-const routes = [
-    {
-        path: '/',
-        name: 'Home',
-        component: Home
-    },
-    {
-        path: '/about',
-        name: 'About',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-    }
+// 不需要权限的白名单path
+const whiteList = [
+  '/error',
+  '/login'
 ]
+// 不需要权限的路由
+const commonRoutes = [
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('@/views/common/Login.vue')
+  },
+  {
+    path: '/quit',
+    name: 'quit',
+    component: () => import('@/views/common/Quit.vue')
+  },
+  {
+    path: '/error/:id',
+    name: '异常',
+    component: () => import('@/views/common/404.vue')
+  }
+]
+const asyncRoutes = gatewayHomeRouter
+const createRouter = () =>
+  new VueRouter({
+    mode: 'history',
+    base: process.env.BASE_URL,
+    routes: commonRoutes
+  })
 
-const router = new VueRouter({
-    routes
-})
-
+const router = createRouter()
+router.$addRoutes = (params) => {
+  router.matcher = new VueRouter({ mode: 'history' }).matcher
+  router.options.routes = params
+  router.addRoutes(params)
+}
+// 写一个重置路由的方法，切换用户后，或者退出时清除动态加载的路由
+const resetRouter = function resetRouter () {
+  const newRouter = createRouter()
+  router.matcher = newRouter.matcher // 新路由实例matcer，赋值给旧路由实例的matcher，（相当于replaceRouter）
+}
+export {
+  asyncRoutes,
+  commonRoutes,
+  whiteList,
+  resetRouter
+}
 export default router
