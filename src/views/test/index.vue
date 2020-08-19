@@ -1,6 +1,7 @@
 <template>
   <div id="index">
     <div class="box">测试样式</div>
+    <router-view />
   </div>
 </template>
 

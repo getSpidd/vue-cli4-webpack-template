@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import 'nprogress/nprogress.css'
 import gatewayHomeRouter from './gatewayHome'
 Vue.use(VueRouter)
 
@@ -14,30 +13,30 @@ const commonRoutes = [
   {
     path: '/login',
     name: 'login',
-    component: () => import('@/views/common/Login.vue')
+    component: () => import(/* webpackChunkName: "Login" */ '@/views/common/Login.vue')
   },
   {
     path: '/quit',
     name: 'quit',
-    component: () => import('@/views/common/Quit.vue')
+    component: () => import(/* webpackChunkName: "quit" */ '@/views/common/Quit.vue')
   },
   {
     path: '/error/:id',
     name: '异常',
-    component: () => import('@/views/common/404.vue')
+    component: () => import(/* webpackChunkName: "404" */ '@/views/common/404.vue')
   }
 ]
 const asyncRoutes = gatewayHomeRouter
 const createRouter = () =>
   new VueRouter({
-    mode: 'history',
+    mode: 'hash',
     base: process.env.BASE_URL,
     routes: commonRoutes
   })
 
 const router = createRouter()
 router.$addRoutes = (params) => {
-  router.matcher = new VueRouter({ mode: 'history' }).matcher
+  router.matcher = new VueRouter({ mode: 'hash' }).matcher
   router.options.routes = params
   router.addRoutes(params)
 }

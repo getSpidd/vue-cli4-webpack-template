@@ -17,10 +17,10 @@ export default {
     desc: String,
     src: String
   },
-  data() {
+  data () {
     return {
       word: '您暂无权限访问此页面！！！'
-    };
+    }
   }
-};
+}
 </script>

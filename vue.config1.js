@@ -1,13 +1,15 @@
+// const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const webpack = require('webpack')
 const path = require('path')
 const IS_PROD = process.env.NODE_ENV === 'production'
 const IS_analyzer = process.env.BRANCH === 'analyzer'
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin // 打包分析
-// const MiniCssExtractPlugin = require('mini-css-extract-plugin') // css 分离打包
-// const CompressionWebpackPlugin = require('compression-webpack-plugin') // gzip 压缩
+const CompressionWebpackPlugin = require('compression-webpack-plugin') // gzip 压缩
 const productionGzipExtensions = ['js', 'html', 'css']
 const cdn = {
-  css: [],
+  css: [
+    'https://cdn.bootcdn.net/ajax/libs/nprogress/0.2.0/nprogress.min.css'
+  ],
   js: [
     'https://cdn.bootcss.com/jquery/3.3.1/jquery.js',
     'https://cdn.bootcss.com/vue/2.6.11/vue.runtime.min.js',
@@ -41,7 +43,6 @@ module.exports = {
     的字符串，
     注意：请保证pages里配置的路径和文件名 在你的文档目录都存在 否则启动服务会报错的
     */
-  filenameHashing: false,
   pages: {
     app: {
       // 入口文件，相对于多页面应用的main.js，必需。
@@ -123,14 +124,12 @@ module.exports = {
     }
 
     // 将css 分离打包
-    /*
-    config.plugins.push(new MiniCssExtractPlugin({
-      // Options similar to the same options in webpackOptions.output
-      // both options are optional
-      filename: '[name].css',
-      chunkFilename: '[id].css'
-    }))
-    */
+    // config.plugins.push(new MiniCssExtractPlugin({
+    //     // Options similar to the same options in webpackOptions.output
+    //     // both options are optional
+    //     filename: "[name].css",
+    //     chunkFilename: "[id].css"
+    // }));
 
     // 将插件暴露到window中
     // config.plugins.push(new webpack.ProvidePlugin({
@@ -168,20 +167,15 @@ module.exports = {
       // 我们的项目不需要common，所以将common置为{}，覆盖默认common配置
       /*
       config.optimization.splitChunks({
-        chunks: 'all',
         cacheGroups: {
-          libs: {
-            name: 'chunk-libs', // 分割成的文件名
-            test: /[\\/]node_modules[\\/]/, // 匹配 node_modules 中模块
-            minChunks: 1, // 模块的最小被引用次数
-            priority: 10,
-            chunks: 'initial' // 这里覆盖上面的 chunks: 'all'，仅打包最初依赖的第三方库
+          vendors: {
+            name: 'chunk-vendors',
+            minChunks: 2,
+            test: /node_modules/,
+            priority: -10,
+            chunks: 'initial'
           },
-          nprogress: {
-            name: 'chunk-nprogress',
-            priority: 20, // 优先级 20，命中 iview 代码时，优先分割到此组里
-            test: /[\\/]node_modules[\\/]_?nprogress(.*)/ // 匹配 nprogress 代码
-          }
+          common: {}
         }
       })
       */
