@@ -161,6 +161,40 @@ module.exports = {
       // });
 
       // 公共资源提取，
+      config.optimization.splitChunks({
+        // 代码分割时默认对异步代码生效，all：所有代码有效，inital：同步代码有效
+        chunks: 'async',
+        // 代码分割最小的模块大小，引入的模块大于 20000B 才做代码分割
+        minSize: 20000,
+        // 代码分割最大的模块大小，大于这个值要进行代码分割，一般使用默认值
+        maxSize: 0,
+        // 引入的次数大于等于1时才进行代码分割
+        minChunks: 1,
+        // 最大的异步请求数量,也就是同时加载的模块最大模块数量
+        maxAsyncRequests: 30,
+        // 入口文件做代码分割最多分成 30 个 js 文件
+        maxInitialRequests: 30,
+        // 文件生成时的连接符
+        automaticNameDelimiter: '~',
+        enforceSizeThreshold: 5000,
+        cacheGroups: {
+          vendors: {
+            // 位于node_modules中的模块做代码分割
+            test: /[\\/]node_modules[\\/]/,
+            // 根据优先级决定打包到哪个组里，例如一个 node_modules 中的模块进行代码
+            priority: -10
+          },
+          // 既满足 vendors，又满足 default，那么根据优先级会打包到 vendors 组中。
+          default: {
+            // 没有 test 表明所有的模块都能进入 default 组，但是注意它的优先级较低。
+            //  根据优先级决定打包到哪个组里,打包到优先级高的组里。
+            priority: -20,
+            // 如果一个模块已经被打包过了,那么再打包时就忽略这个上模块
+            reuseExistingChunk: true
+          }
+        }
+      })
+
       // vendors提取的是第三方公共库(满足提取规则的node_modules里面的且页面引入的)，这些文件会打到dist/js/chunk-vendors.js里面
       // 提取规则是每个页面都引入的才会打到chunk-vendors.js里面(如vue.js)
       // 控制条件是minChunks字段，所以该字段的值是当前activity/src/projects里面的html的个数
